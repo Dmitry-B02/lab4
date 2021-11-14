@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +37,7 @@ open class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i(TAG, "msg")
         return NavigationUI.onNavDestinationSelected(
             item, findNavController(R.id.nav_host_fragment_activity_main)
         ) || super.onOptionsItemSelected(item)

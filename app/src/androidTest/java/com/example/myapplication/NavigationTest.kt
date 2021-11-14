@@ -12,8 +12,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert
@@ -39,14 +38,113 @@ class NavigationTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
+    private fun validateFragment1() { // TODO add nav arrow check
+        onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+    }
+
+    private fun validateFragment2() {
+        onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+    }
+
+    private fun validateFragment3() {
+        onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+    }
+
+    private fun rotatePortrait() {
+        activityRule.scenario.onActivity { activity ->
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+        Thread.sleep(1000)
+    }
+
+    private fun rotateLandscape() {
+        activityRule.scenario.onActivity { activity ->
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+        Thread.sleep(1000)
+    }
+
     @Test
-    fun checkNavigation() {
+    fun checkNavigation1() {
         onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
         onView(withId(R.id.bnToThird)).perform(click())
         onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun checkNavigation2() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
         openAbout()
         onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
     }
@@ -74,36 +172,56 @@ class NavigationTest {
     }
 
     @Test
-    fun checkRotatiomState1() {
+    fun checkRotationState1() {
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
-        activityRule.scenario.onActivity { activity ->
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-        Thread.sleep(1000)
-        activityRule.scenario.onActivity { activity ->
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        rotatePortrait()
+        rotateLandscape()
+        validateFragment2()
+        pressBack()
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        rotatePortrait()
+        pressBack()
+        validateFragment2()
+        rotateLandscape()
+        pressBack()
+        validateFragment1()
     }
 
     @Test
-    fun checkRotatiomState2() {
+    fun checkRotationState2() {
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.bnToSecond)).perform(click())
         openAbout()
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        rotatePortrait()
+        pressBack()
+        validateFragment2()
+        onView(withId(R.id.bnToThird)).perform(click())
+        validateFragment3()
+        pressBack()
+        pressBack()
+        validateFragment1()
+        rotateLandscape()
+        openAbout()
+        pressBack()
+        validateFragment1()
+    }
 
-        activityRule.scenario.onActivity { activity ->
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-        Thread.sleep(1000)
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
-
-        activityRule.scenario.onActivity { activity ->
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-        Thread.sleep(1000)
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+    @Test
+    fun checkBackArrow() {
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withContentDescription("Navigate up")).perform(click())
+        validateFragment1()
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withContentDescription("Navigate up")).perform(click())
+        validateFragment2()
+        onView(withContentDescription("Navigate up")).perform(click())
+        validateFragment1()
     }
 
     @Test
